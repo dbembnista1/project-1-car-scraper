@@ -7,7 +7,8 @@ strona www z srednia cena
 http://ec2-3-126-82-64.eu-central-1.compute.amazonaws.com/
 
 
-![image](https://github.com/user-attachments/assets/94b1bd68-e184-4a86-938e-736e4519f525)
+![image](https://github.com/user-attachments/assets/76455eda-4622-485f-a65f-8be989b1f62c)
+
 
 
 
