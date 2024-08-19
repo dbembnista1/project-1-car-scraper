@@ -5,4 +5,4 @@ Resources:
       Properties:
         Name: CarPriceScraper
         CurrentVersion: true
-        TargetVersion: true
+        TargetVersion: "Current"
