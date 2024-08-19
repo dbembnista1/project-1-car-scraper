@@ -18,3 +18,4 @@ phases:
 artifacts:
   files:
     - lambda_function.zip
+  discard-paths: yes
