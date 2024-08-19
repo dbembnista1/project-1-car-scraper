@@ -12,11 +12,11 @@ phases:
       - echo Packaging Lambda function...
       - pip install -r requirements.txt -t package/
       - cp -r src/* package/
-      - cp appspec.yml package/  # Ensure appspec.yml is included
       - cd package
       - zip -r9 ../lambda_function.zip .
 
 artifacts:
   files:
     - lambda_function.zip
+    - appspec.yml
   discard-paths: yes
