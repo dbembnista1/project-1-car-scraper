@@ -6,7 +6,6 @@ phases:
       python: 3.x
     commands:
       - pip install awscli
-      - cd project-1
 
   build:
     commands:
