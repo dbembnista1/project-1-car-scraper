@@ -60,7 +60,7 @@ def add_car_prices(prices_average):
     item = {'date': timestamp}
     item.update(prices_average)
     table.put_item(Item=item)
-    print("Car prices added to the DynamoDB table.")
+    print("Car prices added to the DB table.")
 
 def lambda_handler(event, context):
     # Retrieve URLs from environment variables
