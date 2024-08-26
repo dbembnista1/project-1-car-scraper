@@ -7,20 +7,40 @@ import boto3
 from datetime import datetime
 import os
 
-def fetch_car_prices(url):
+# Function to fetch car prices with retry logic and exponential backoff
+def fetch_car_prices_with_retry(url, max_retries=5, backoff_factor=2):
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive"
     }
-    response = requests.get(url, headers=headers)
-    soup = BeautifulSoup(response.content, "html.parser")
-    prices = []
-    for item in soup.select("h3.efpuxbr16.ooa-1n2paoq.er34gjf0"):
-        price = item.get_text(strip=True).replace(" ", "").replace("PLN", "")
+
+    for attempt in range(max_retries):
         try:
-            prices.append(int(price))
-        except ValueError:
-            continue
-    return prices
+            response = requests.get(url, headers=headers)
+            soup = BeautifulSoup(response.content, "html.parser")
+            prices = []
+            for item in soup.select("h3.efpuxbr16.ooa-1n2paoq.er34gjf0"):
+                price = item.get_text(strip=True).replace(" ", "").replace("PLN", "")
+                try:
+                    prices.append(int(price))
+                except ValueError:
+                    continue
+            
+            # Check if prices were found
+            if prices:
+                return prices
+            
+        except requests.RequestException as e:
+            print(f"Request failed: {e}")
+        
+        # Exponential backoff before retrying
+        sleep_time = backoff_factor ** attempt + random.uniform(0, 1)
+        time.sleep(sleep_time)
+    
+    # Return empty list if all retries fail
+    return []
 
 def extract_car_company_and_model_from_url(url):
     match = re.search(r'/osobowe/([^/]+)/([^/]+)/', url)
@@ -35,7 +55,7 @@ def fetch_prices_from_multiple_urls(urls):
     for url in urls:
         car_company, car_model = extract_car_company_and_model_from_url(url)
         print(f"Pobieranie cen dla: {car_company} {car_model}")
-        car_prices = fetch_car_prices(url)
+        car_prices = fetch_car_prices_with_retry(url)
         if car_prices:
             average_price = int(sum(car_prices) / len(car_prices))
             print(f"Średnia cena dla {car_company} {car_model}: {average_price} PLN")
@@ -72,5 +92,3 @@ def lambda_handler(event, context):
     summary = fetch_prices_from_multiple_urls(urls)
     add_car_prices(summary)
     return summary
-
-
