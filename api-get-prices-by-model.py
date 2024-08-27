@@ -42,8 +42,8 @@ def get_car_prices_by_model(table_name, car_model):
         return []
 
 def lambda_handler(event, context):
-    # Extract the car model from the incoming event
-    car_model = event.get('car_model', None)
+    # Extract the car model from the query string parameters
+    car_model = event.get('queryStringParameters', {}).get('model', None)
     
     # If car_model is not provided, return an error
     if not car_model:
