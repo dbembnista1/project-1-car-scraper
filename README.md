@@ -2,7 +2,8 @@
 http://ec2-3-126-82-64.eu-central-1.compute.amazonaws.com/
 
 
-![image](https://github.com/user-attachments/assets/47709ee5-1ac8-4fa2-92ba-0ad1710c7772)
+![diagram - visio](https://github.com/user-attachments/assets/fac3cabc-1c93-4691-b415-405755ffd812)
+
 
 
 
@@ -10,7 +11,7 @@ http://ec2-3-126-82-64.eu-central-1.compute.amazonaws.com/
 
 ## Overview
 
-This project is an AWS-based system designed to scrape car model prices from the website [otomoto.pl](https://www.otomoto.pl), calculate the average prices, store this data, and make it accessible through a REST API. The project leverages various AWS services such as Lambda, DynamoDB, SNS, CodeBuild, EC2, and Cognito, providing a scalable and secure solution for tracking car prices.
+The project is designed to scrape car model prices from the website [otomoto.pl](https://www.otomoto.pl), calculate the average prices, store this data, and make it accessible through a REST API. The project leverages various AWS services such as Lambda, DynamoDB, SNS, CodeBuild, EC2, and Cognito, providing a scalable and secure solution for tracking car prices.
 
 ## Architecture
 
@@ -18,7 +19,7 @@ The architecture consists of several components working together to scrape data,
 
 ### 1. Web Scraping and Data Processing (AWS Lambda)
 - **Functionality**: An AWS Lambda function is triggered to scrape all car model offers from otomoto.pl, calculate the average price, and send the data to DynamoDB for storage.
-- **Trigger**: This Lambda function is executed periodically or on demand to ensure up-to-date price data.
+- **Trigger**: This Lambda function is executed every day by EventBridge schedule.
 
 ### 2. Data Storage (DynamoDB)
 - **Functionality**: The average price data for car models, along with the date of extraction, is stored in an AWS DynamoDB table. This table serves as the primary data source for the rest of the application.
