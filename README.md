@@ -7,56 +7,55 @@ strona www z srednia cena
 http://ec2-3-126-82-64.eu-central-1.compute.amazonaws.com/
 
 
-![image](https://github.com/user-attachments/assets/efea81e0-62ec-45eb-bc44-b64371d3a214)
+![image](https://github.com/user-attachments/assets/47709ee5-1ac8-4fa2-92ba-0ad1710c7772)
 
 
 
+# Car Model Price Scraper and API
+
+## Overview
+
+This project is an AWS-based system designed to scrape car model prices from the website [otomoto.pl](https://www.otomoto.pl), calculate the average prices, store this data, and make it accessible through a REST API. The project leverages various AWS services such as Lambda, DynamoDB, SNS, CodeBuild, EC2, and Cognito, providing a scalable and secure solution for tracking car prices.
+
+## Architecture
+
+The architecture consists of several components working together to scrape data, process it, store it, and make it available to users through a web interface and API:
+
+### 1. Web Scraping and Data Processing (AWS Lambda)
+- **Functionality**: An AWS Lambda function is triggered to scrape all car model offers from otomoto.pl, calculate the average price, and send the data to DynamoDB for storage.
+- **Trigger**: This Lambda function is executed periodically or on demand to ensure up-to-date price data.
+
+### 2. Data Storage (DynamoDB)
+- **Functionality**: The average price data for car models, along with the date of extraction, is stored in an AWS DynamoDB table. This table serves as the primary data source for the rest of the application.
+
+### 3. Notification and Email Formatting (AWS SNS & Lambda)
+- **Functionality**: After the average prices are calculated, a Lambda function formats this data and sends it to an SNS topic. Subscribers to this topic (e.g., email addresses) receive the formatted data.
+- **SNS Topic**: A separate SNS topic is set up to handle the distribution of the formatted price data.
+
+### 4. Continuous Integration and Deployment (CodeBuild & GitHub)
+- **Functionality**: The project is integrated with AWS CodeBuild for continuous integration. Any changes in the main Lambda function code in the GitHub repository trigger a build process that creates a deployment package and updates the Lambda function.
+- **Automation**: This setup ensures that the Lambda function is always running the latest code version.
+
+### 5. Web Interface and API (EC2, Node.js, REST API Gateway, Cognito)
+- **Website (EC2)**: An EC2 instance hosts a Node.js application that serves a web interface. This interface provides charts and visualizations generated from the data stored in DynamoDB.
+- **REST API Gateway**: The REST API, hosted on AWS API Gateway, allows users to query the average prices by car model. The API integrates with Cognito for user authentication, ensuring that only authorized users can access the data.
+- **User Authentication (Cognito)**: AWS Cognito is used to manage user authentication. The API requests are authenticated using tokens provided by Cognito.
+
+## Components
+
+- **AWS Lambda**: Used for data scraping, processing, and API response generation.
+- **AWS DynamoDB**: Serves as the database for storing car model price data.
+- **AWS SNS**: Handles notification and email distribution.
+- **AWS CodeBuild**: Manages continuous integration and deployment.
+- **AWS EC2**: Hosts the web application interface.
+- **AWS API Gateway**: Provides a RESTful API for accessing the stored data.
+- **AWS Cognito**: Manages user authentication for API access.
 
 
-### Project Components:
-1. **Lambda Function**:
-   - **Tasks**: Web scraping, storing data in DynamoDB, sending emails via STS. Python beautiful soap
-   - **Advantages**: Serverless, cost-efficient, scalable.
-   - **Considerations**: Ensure Lambda has sufficient permissions for DynamoDB and STS.
 
-2. **DynamoDB**:
-   - **Purpose**: Store data and calculate the average car model prices daily.
-   - **Advantages**: Fully managed NoSQL database, high performance, scalable.
-   - **Considerations**: Design the table schema carefully to handle the data structure.
+## Usage
 
-3. **STS (Simple Email Service)**:
-   - **Purpose**: Send emails.
-   - **Advantages**: Reliable email sending service.
-   - **Considerations**: Configure the email settings and permissions correctly.
+- **Web Interface**: Access the web interface hosted on EC2 to view charts and visualizations of car price data.
+- **API**: Use the REST API to programmatically access car model prices by sending requests with a valid Cognito authentication token.
 
-4. **EC2 Instance**:
-   - **Purpose**: Host an Apache web server with a Node.js application to retrieve data from DynamoDB.
-   - **Advantages**: Flexible server configuration.
-   - **Considerations**: Ensure the EC2 instance is properly secured and optimized for your use case.
 
-5. **Internet Gateway**:
-   - **Purpose**: Provide access to the web server from the internet.
-   - **Advantages**: Allows users to access the application.
-   - **Considerations**: Set up proper security groups and firewalls.
-
-6. **WWW.otomoto.pl**:
-   - **Purpose**: Source website for scraping data.
-   - **Considerations**: Make sure to comply with the website’s terms of service regarding web scraping.
-
-### General Considerations:
-- **Security**: Implement IAM roles and policies to control access to resources.
-- **Cost Management**: Monitor and manage costs, especially for EC2 and Lambda usage.
-- **Scalability**: Ensure the architecture can handle the load as the project grows.
-- **Error Handling**: Implement robust error handling and logging for debugging and maintenance.
-- **Compliance**: Ensure compliance with legal and ethical guidelines, especially regarding web scraping.
-
-### Next Steps:
-1. **Setup IAM roles and policies** for your Lambda function and EC2 instance.
-2. **Develop the Lambda function** to handle web scraping and data storage.
-3. **Configure DynamoDB** tables to store and query your data effectively.
-4. **Set up EC2** instance with Apache and Node.js, and develop the application to fetch and display data.
-5. **Configure STS** for sending emails.
-6. **Test each component** individually and then as a whole integrated system.
-7. **Monitor and optimize** the performance and cost of your AWS resources.
-
-This project should provide a comprehensive introduction to various AWS services and help you gain practical experience with cloud architecture and development.
