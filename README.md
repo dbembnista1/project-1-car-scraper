@@ -1,8 +1,3 @@
-otomoto srednie ceny dla rocznika dla modelu suva  
-trend sredniej ceny, wykres  
-powiadomienia mailowe z srednia cena  
-strona www z srednia cena  
-
 ### Web App
 http://ec2-3-126-82-64.eu-central-1.compute.amazonaws.com/
 
