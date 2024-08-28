@@ -2,7 +2,8 @@
 http://ec2-3-126-82-64.eu-central-1.compute.amazonaws.com/
 
 
-![image](https://github.com/user-attachments/assets/7ff28524-4d30-4988-bef3-cec91f24950f)
+<img width="1085" alt="AWS project 1 - add event bridge (1)" src="https://github.com/user-attachments/assets/4afcdc15-fd5d-4ec0-aa4d-b684a8917c0e">
+
 
 
 
