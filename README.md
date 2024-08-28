@@ -2,8 +2,7 @@
 http://ec2-3-126-82-64.eu-central-1.compute.amazonaws.com/
 
 
-![image](https://github.com/user-attachments/assets/58bf8dfb-514e-4dc9-9b2f-04e82f67f23c)
-
+![image](https://github.com/user-attachments/assets/a1890d24-a282-40c7-bd66-d46effe9a909)
 
 
 
