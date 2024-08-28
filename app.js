@@ -10,9 +10,14 @@ AWS.config.update({ region: 'eu-central-1' }); // Change to your region
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const tableName = 'car_prices'; // Replace with your DynamoDB table name
 
+
 // Express setup
 const app = express();
 const port = 3000;
+
+
+// Serve static files from the "public" directory
+app.use(express.static('public'));
 
 // Chart.js setup
 const width = 800; // width of the chart
@@ -98,8 +103,15 @@ app.get('/', async (req, res) => {
     }
 
     // Create HTML content
-    let htmlContent = '<html><head><title>Car Prices</title></head><body>';
-    htmlContent += '<h1>Car Prices Over Time</h1>';
+    let htmlContent = `
+      <html>
+        <head>
+          <title>Car Prices</title>
+        </head>
+        <body>
+          <h1>Car Prices Over Time</h1>
+          <a href="/api-form-with-authentication-hostedUI.html">API access</a> <!-- Link to API access page -->
+    `;
 
     for (const [model, chart] of Object.entries(charts)) {
       htmlContent += `<h2>${model}</h2>`;
